@@ -1,15 +1,61 @@
-## Put comments here that give an overall description of what your
-## functions do
+##      This source is free to do anything you want.
+##      By Danilo Pinheiro - Brazil, to Coursera Data Science Specialization
+##
+##
+## The function makeCacheMatrix get a matrix() as unique parameter
+## and store in environment. If the parameter x is NULL, then generate
+## a empty matrix.
+##
+## Other functions inside makeCacheMatrix, is a setter to 
+## matrix *not inverted* (makeCacheMatrix$set)
+## and return the matrix *not inverted* (makeCacheMatrix$get)
+## and set the *inverted matrix* (makeCacheMatrix$setSolve)
+## and get the *inverted matrix* (makeCacheMatrix$getSolve)
+##
+## Always setting a matrix not inverted, the matrix inverted is cleaned (NULL)
+## 
+## This function only store, not solve the matrix.
 
-## Write a short comment describing this function
 
 makeCacheMatrix <- function(x = matrix()) {
 
+        x_inv <- NULL
+        set <- function(y) {
+                x <<- y
+                x_inv <<- NULL
+        }
+        get <- function() x
+        setSolve <- function(y) x_inv <<- y
+        getSolve <- function() x_inv
+        list(set = set, get = get,
+             setSolve = setSolve,
+             getSolve = getSolve)
+        
 }
 
 
-## Write a short comment describing this function
+## The function cacheSolve get two parameters. X is function
+## to store, and data_raw is the matrix to store or solve.
+## If the matrix stored is identical to parameter matrix, only return
+## stored *inverted matrix*
+## If the matrix stored is different or NULL, then
+## new matrix (data_raw) is stored and solved.
+## and return the new inverted matrix
 
-cacheSolve <- function(x, ...) {
+cacheSolve <- function(x, data_raw, ...) {
         ## Return a matrix that is the inverse of 'x'
+        
+        data_norm<-x$get()
+        data_inv<-x$getSolve()
+
+
+        if(!is.null(data_inv) && identical(data_norm, data_raw)) {
+                message("getting cached data")
+                return(data_inv)
+        }
+        message("processing data")
+        data_inv <- solve(data_raw, ...) 
+        x$set(data_raw)
+        x$setSolve(data_inv)
+        data_inv
 }

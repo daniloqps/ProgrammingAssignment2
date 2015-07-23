@@ -42,20 +42,18 @@ makeCacheMatrix <- function(x = matrix()) {
 ## new matrix (data_raw) is stored and solved.
 ## and return the new inverted matrix
 
-cacheSolve <- function(x, data_raw, ...) {
+cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
         
-        data_norm<-x$get()
         data_inv<-x$getSolve()
 
 
-        if(!is.null(data_inv) && identical(data_norm, data_raw)) {
+        if( !is.null(data_inv)) {
                 message("getting cached data")
                 return(data_inv)
         }
         message("processing data")
-        data_inv <- solve(data_raw, ...) 
-        x$set(data_raw)
+        data_inv <- x$setSolve(solve(x$get(), ...))
         x$setSolve(data_inv)
         data_inv
 }

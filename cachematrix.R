@@ -34,17 +34,18 @@ makeCacheMatrix <- function(x = matrix()) {
 }
 
 
-## The function cacheSolve get two parameters. X is function
-## to store, and data_raw is the matrix to store or solve.
-## If the matrix stored is identical to parameter matrix, only return
-## stored *inverted matrix*
-## If the matrix stored is different or NULL, then
-## new matrix (data_raw) is stored and solved.
-## and return the new inverted matrix
+## The function cacheSolve get two parameters: X is function
+## to store and ... is other parameters to be passed do solve()
+## if necessary. See ?solve.
+##
+## if the *inverted* matrix are not solved yet (is null)
+## then cacheSolve call solve() and x$setSolve() to store.
+## otherwise, x$getSolve() return with cached inverted matrix
+## 
+##
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
-        
+
         data_inv<-x$getSolve()
 
 
